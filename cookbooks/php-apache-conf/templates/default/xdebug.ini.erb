@@ -1,7 +1,26 @@
 zend_extension=<%= %x[find /usr/lib/php5 -name 'xdebug.so' 2> /dev/null] %>
+
+[xdebug]
 xdebug.default_enable=1
 xdebug.remote_enable=1
 xdebug.remote_handler=dbgp
 xdebug.remote_host=33.33.33.1
 xdebug.remote_port=9000
+xdebug.remote_connect_back=1
 xdebug.remote_autostart=0
+xdebug.remote_log="/tmp/xdebug_remot.log"
+
+xdebug.profiler_enable=0
+xdebug.profiler_enable_trigger=1
+xdebug.profiler_output_name=callgrind.out.%t.%p
+xdebug.profiler_append=0
+
+xdebug.extended_info=1
+xdebug.idekey=netbeans-xdebug
+xdebug.show_exception_trace=0
+xdebug.show_local_vars=9
+xdebug.show_mem_delta=0
+xdebug.trace_format=0
+xdebug.var_display_max_children=-1
+xdebug.var_display_max_data=-1
+xdebug.var_display_max_depth=-1
