@@ -9,7 +9,7 @@ IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) ? true : fals
 #------------------------------------#
 # Change configuration options below #
 #------------------------------------#
-project_name = "www"
+project_name = "www" # The name of the pro
 
 
 #---------------------------------------#
@@ -49,7 +49,6 @@ Vagrant.configure("2") do |config|
       chef.add_recipe "php"
       chef.add_recipe "xml"
 
-      chef.add_recipe "yum::yum"
       chef.add_recipe "lesscss"
       chef.add_recipe "uglifyjs"
 
