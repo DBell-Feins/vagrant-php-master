@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
       chef.add_recipe "openssl"
       chef.add_recipe "git"
       chef.add_recipe "nodejs"
-      chef.add_recipe "nodejs::npm"
+      chef.add_recipe "npm"
 
       chef.add_recipe "apache2"
       chef.add_recipe "mysql"
