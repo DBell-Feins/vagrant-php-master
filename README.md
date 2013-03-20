@@ -1,15 +1,15 @@
 Vagrant PHP
 ===========
-This is a Vagrant (http://www.vagrantup.com) box setup with a LAMP stack for developing PHP applications.
+This is a Vagrant (http://www.vagrantup.com) box setup with a LAMP stack and various add-ons.
 
 Requirements:
 
-- default "lucid32" base box (http://files.vagrantup.com/lucid32.box)
+- Ubuntu 12.0.4.2 LTS (Precise Pangolin) "precise32" base box (http://files.vagrantup.com/precise32.box)
 
 PHP:
 
-- latest official supported version for Ubuntu Server 10.0.4 LTS (Lucid Lynx)
-- predefined set of parameters through custom .ini file
+- version 5.3
+- PEAR packaging system
 
 MySQL:
 

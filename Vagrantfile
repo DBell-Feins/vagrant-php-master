@@ -9,7 +9,7 @@ IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) ? true : fals
 #------------------------------------#
 # Change configuration options below #
 #------------------------------------#
-project_name = "www" # The name of the pro
+project_name = "www"
 
 
 #---------------------------------------#
@@ -36,6 +36,7 @@ Vagrant.configure("2") do |config|
   # Provisioning with Chef
   config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
+      chef.log_level = :debug
       #chef.roles_path = "roles"
       chef.add_recipe "apt"
       chef.add_recipe "build-essential"

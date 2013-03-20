@@ -65,6 +65,14 @@ execute "phpunit" do
   not_if "phpunit -v | grep 3.6"
 end
 
+# install phpDocumentor
+execute "phpdocumentor" do
+  command "sudo pear channel-discover pear.phpdoc.org"
+end
+
+php_pear "phpdoc/phpDocumentor-alpha" do
+  action :install
+end
 
 # install git
 package "git-core"
@@ -77,11 +85,11 @@ script "install_phpmyadmin" do
   code <<-EOH
   rm -rf /tmp/phpMyAdmin*
 
-  wget http://sourceforge.net/projects/phpmyadmin/files/phpMyAdmin/3.5.0/phpMyAdmin-3.5.0-english.tar.gz
-  tar -xzvf phpMyAdmin-3.5.0-english.tar.gz
+  wget http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.5.7/phpMyAdmin-3.5.7-english.tar.gz
+  tar -xzvf phpMyAdmin-3.5.7-english.tar.gz
 
   mkdir -p /var/www/phpmyadmin
-  cp -R /tmp/phpMyAdmin-3.5.0-english/* /var/www/phpmyadmin/
+  cp -R /tmp/phpMyAdmin-3.5.7-english/* /var/www/phpmyadmin/
 
   EOH
   not_if "test -f /var/www/phpmyadmin"
@@ -95,19 +103,7 @@ script "install_capistrano" do
   code <<-EOH
   gem sources -a http://gems.github.com/
   gem install capistrano
+  gem install railsless-deploy
   gem install capistrano-ext
-
-  git clone git@github.com:marlon-be/fratello-deploy-strategy.git
-  cd fratello-deploy-strategy
-  gem build fratello.gemspec
-  gem install fratello-0.0.2.gem
-
-  cd ..
-  git clone https://github.com/ursm/capistrano-notification.git
-  cd capistrano-notification
-  gem build capistrano-notification.gemspec
-  gem install capistrano-notification-0.1.1.gem
-  gem install sr-shout-bot --source=http://gems.github.com
-
   EOH
 end
