@@ -36,8 +36,23 @@ Vagrant.configure("2") do |config|
   # Provisioning with Chef
   config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
-      chef.roles_path = "roles"
+      #chef.roles_path = "roles"
       chef.add_recipe "apt"
       chef.add_recipe "build-essential"
+      chef.add_recipe "openssl"
+      chef.add_recipe "git"
+      chef.add_recipe "nodejs"
+      chef.add_recipe "nodejs::npm"
+
+      chef.add_recipe "apache2"
+      chef.add_recipe "mysql"
+      chef.add_recipe "php"
+      chef.add_recipe "xml"
+
+      chef.add_recipe "yum::yum"
+      chef.add_recipe "lesscss"
+      chef.add_recipe "uglifyjs"
+
+      chef.add_recipe "marlon"
   end
 end
