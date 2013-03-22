@@ -1,8 +1,23 @@
-require_recipe "apache2"
-require_recipe "apache2::mod_php5"
-require_recipe "php"
+include_recipe "apache2"
+include_recipe "apache2::mod_php5"
+include_recipe "php"
 
 require 'fileutils'
+
+#php5 curl
+package "php5-curl" do
+  action :install
+end
+
+#php5 mysql
+package "php5-mysql" do
+  action :install
+end
+
+#php5 memcache
+package "php5-memcache" do
+  action :install
+end
 
 #php5 xsl
 package "php5-xsl" do
@@ -14,12 +29,12 @@ package "php5-xdebug" do
   action :install
 end
 
+package "php5-mcrypt" do
+  action :install
+end
+
 # memcached
 package "memcached"
-# memcache - might be able to get this directly from the php cookbook
-#php_pear "memcache" do
-  #action :install
-#end
 
 # Set up PHP packages.
 php_pear_channel "pear.php.net" do
@@ -30,7 +45,7 @@ phpunit = php_pear_channel "pear.phpunit.de" do
   action :discover
 end
 
-php_pear_channel "pear.phpdoc.org" do
+phpdoc = php_pear_channel "pear.phpdoc.org" do
   action :discover
 end
 
@@ -41,13 +56,10 @@ php_pear "PEAR" do
 end
 
 # phpDocumentor
-script 'install-PhpDocumentor' do
-  interpreter 'bash'
-  user        'root'
-  code <<-EOS
-  pear config-set auto_discover 1
-  pear install phpdoc/phpDocumentor-alpha
-  EOS
+php_pear "phpDocumentor" do
+  channel          phpdoc.channel_name
+  preferred_state  "alpha"
+  action           :install
 end
 
 # install PHPUnit
@@ -76,6 +88,22 @@ script "install_phpmyadmin" do
 
   EOH
   not_if "test -f /var/www/phpmyadmin"
+end
+
+# sqlbuddy
+script "install_sqlbuddy" do
+  interpreter "bash"
+  user "root"
+  cwd "/tmp"
+  code <<-EOH
+  rm -rf /tmp/sqlbuddy*
+
+  git clone https://github.com/calvinlough/sqlbuddy.git sqlbuddy
+  mkdir -p /var/www/sqlbuddy
+  cp -R /tmp/sqlbuddy/* /var/www/sqlbuddy/
+
+  EOH
+  not_if "test -f /var/www/sqlbuddy"
 end
 
 # capistrano
