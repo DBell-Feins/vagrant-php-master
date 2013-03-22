@@ -29,7 +29,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
       chef.roles_path = "roles"
-      chef.log_level = :debug
       chef.add_role("base")
       chef.add_role("amp")
       chef.add_role("extras")
