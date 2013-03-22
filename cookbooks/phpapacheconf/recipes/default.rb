@@ -4,7 +4,6 @@ template "/etc/php5/conf.d/custom.ini" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources("service[apache2]"), :delayed
 end
 
 # xdebug template
@@ -13,20 +12,22 @@ template "/etc/php5/conf.d/xdebug.ini" do
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resources("service[apache2]"), :delayed
 end
 
 # disable default apache site
 execute "disable-default-site" do
   command "sudo a2dissite default"
-  notifies :reload, resources(:service => "apache2"), :delayed
 end
 
 # configure apache project vhost
 web_app "project" do
   template "project.conf.erb"
-  server_name node['hostname']
-  server_aliases node['aliases']
-  docroot "/vagrant/www"
-  set_env node['set_env']
+
+  server_name node['phpapacheconf']['hostname']
+  docroot node['phpapacheconf']['docroot']
+  set_env node['phpapacheconf']['set_env']
+end
+
+service 'apache2' do
+  action :restart
 end

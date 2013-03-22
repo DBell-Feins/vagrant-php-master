@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+	ServerName <%= @params[:server_name] %>
+	DocumentRoot <%= @params[:docroot] %>
+  RewriteEngine On
+	SetEnv "APPLICATION_ENV" "<%= @params[:set_env] %>"
+
+  Alias /phpmyadmin /var/www/phpmyadmin
+</VirtualHost>
