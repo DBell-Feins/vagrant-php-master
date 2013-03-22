@@ -7,6 +7,9 @@ run_list 'recipe[apache2]',
           'recipe[apache2::mod_rewrite]',
           'recipe[mysql::server]',
           'recipe[php]',
+          'recipe[php::module_curl]',
+          'recipe[php::module_mysql]',
+          'recipe[php::module_memcache]',
           'recipe[xml]',
-          'recipe[php-plugins]',
-          'recipe[php-apache-conf]'
+          'recipe[phpplugins]',
+          'recipe[phpapacheconf]'
