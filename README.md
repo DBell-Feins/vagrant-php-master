@@ -26,19 +26,26 @@ Additional packages:
 How to use
 ----------
 
-1) add the packaged box generated from this source code to vagrant
+1) add the packaged box generated from this source code to vagrant 
+
 ````
-vagrant box add vagrant-php PATH TO PACKAGE\package.box
+    vagrant box add vagrant-php PATH TO PACKAGE\package.box
 ````
-2) in your project folder, initialize vagrant
+
+2) in your project folder, initialize vagrant 
+
 ````
-vagrant init
+    vagrant init
 ````
-3) startup your vagrant virtual machine
+
+3) startup your vagrant virtual machine 
+
 ````
-vagrant up
+    vagrant up
 ````
+
 4) the "www/public" folder is configured as the default Apache vhost, and accessible through http://localhost:3000 (port 80 has been mapped to port 3000)
+
 5) phpMyAdmin and SQL Buddy are always mapped to the /phpMyAdmin folder and /SQLBuddy folders respectively.
 
 Remarks
