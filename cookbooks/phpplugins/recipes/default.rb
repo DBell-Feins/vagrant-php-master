@@ -29,7 +29,13 @@ package "php5-xdebug" do
   action :install
 end
 
+# mcrypt package
 package "php5-mcrypt" do
+  action :install
+end
+
+# imagemagick package
+package "php5-imagick" do
   action :install
 end
 
