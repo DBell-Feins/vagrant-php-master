@@ -4,3 +4,4 @@
 package.box
 .vagrant
 www/*
+.box

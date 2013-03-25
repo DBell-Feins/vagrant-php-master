@@ -1,6 +1,6 @@
 Todo
 ====
 
-- Vagrantfile met roles file met override attributes
-- server script to setup a vhost easily (ServerName, Log directories, ...)
-- capistrano
+- YAML-based individual configuration
+  - Allows user to take the box down and reprovision it with their own settings
+- Capistrano configuration for manageable distributions
