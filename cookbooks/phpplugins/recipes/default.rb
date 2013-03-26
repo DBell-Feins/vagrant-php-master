@@ -66,6 +66,7 @@ php_pear "phpDocumentor" do
   channel          phpdoc.channel_name
   preferred_state  "alpha"
   action           :install
+  options          "--alldeps"
 end
 
 # install PHPUnit
@@ -73,6 +74,7 @@ php_pear "PHPUnit" do
   channel          phpunit.channel_name
   preferred_state  "beta"
   action           :install
+  options          "--alldeps"
 end
 
 # install git
