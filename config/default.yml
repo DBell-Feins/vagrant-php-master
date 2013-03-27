@@ -1,0 +1,10 @@
+---
+phpapacheconf:
+  hostname: project.local
+  set_env: development
+  docroot: /home/vagrant/www/public
+
+mysql:
+  server_root_password: root
+  server_debian_password: root
+  server_repl_password: root

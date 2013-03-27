@@ -6,6 +6,28 @@
 require 'rbconfig'
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) ? true : false
 
+# use YAML to separate config files from the Vagrantfile
+require 'yaml'
+
+# Read all yaml files from config directory
+if File.directory?(File.join(Dir.pwd, "config")) == true
+  CONFIG_PATH = File.join(Dir.pwd, "config")
+  begin
+    base_config = YAML.load_file(File.join(CONFIG_PATH, 'default.yml'))
+  rescue Errno::ENOENT
+    puts "Unable to load config file, exiting..."
+    exit
+  end
+  base_config.to_json
+
+  Dir.foreach(CONFIG_PATH) do |item|
+    next if item == '.' or item == '..' or item == 'default.yml'
+      if File.extname(item) == '.yml' then
+        config = YAML.load_file(item)
+      end
+  end
+end
+
 Vagrant.configure("2") do |config|
   # Box
   config.vm.box = "precise32"
@@ -33,17 +55,6 @@ Vagrant.configure("2") do |config|
       chef.add_role("amp")
       chef.add_role("extras")
 
-      chef.json.merge!({
-        :phpapacheconf => {
-          :hostname => 'project.local',
-          :set_env => 'development',
-          :docroot => '/home/vagrant/www/public'
-        },
-        :mysql => {
-          :server_root_password => 'root',
-          :server_debian_password => 'root',
-          :server_repl_password => 'root'
-        }
-      })
+      chef.json.merge(base_config)
   end
 end

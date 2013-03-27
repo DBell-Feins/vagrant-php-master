@@ -1,0 +1,5 @@
+---
+foo:
+  hostname: a
+  set_env: b
+  docroot: c

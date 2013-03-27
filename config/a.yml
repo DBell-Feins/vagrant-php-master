@@ -1,0 +1,5 @@
+---
+bar:
+  hostname: d
+  set_env: e
+  docroot: f
