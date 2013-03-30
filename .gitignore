@@ -3,5 +3,5 @@
 .settings
 package.box
 .vagrant
-www/*
+www/**
 .box
