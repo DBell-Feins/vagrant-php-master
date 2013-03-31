@@ -1,32 +1,39 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-# test if the host is a Windows box. If not, we'll set synced folders to use NFS for
-# a (hopeful) performance increase
+# We need yaml for reading config files and rbconfig for testing the host operating system
+require 'yaml'
 require 'rbconfig'
+
+# We need deep_merge so let's grab activesupport unless we already have it
+`gem install activesupport --conservative` unless `gem list`.lines.grep(/^activesupport \(.*\)/).length > 0
+require 'active_support/core_ext/hash/deep_merge'
+
+# Test if the host is a Windows box. If not, we'll set synced folders to use NFS for a (hopeful) performance increase
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) ? true : false
 
-# use YAML to separate config files from the Vagrantfile
-require 'yaml'
+# Set config folder and default config file path
+CONFIG_PATH = File.join(Dir.pwd, "config")
+DEFAULT_CONFIG = File.join(CONFIG_PATH, 'default.yml')
 
-# Read all yaml files from config directory
-if File.directory?(File.join(Dir.pwd, "config")) == true
-  CONFIG_PATH = File.join(Dir.pwd, "config")
+# Read default config file
+if File.exist?(DEFAULT_CONFIG) then
   begin
-    base_config = YAML.load_file(File.join(CONFIG_PATH, 'default.yml'))
+    base_config = YAML.load_file(DEFAULT_CONFIG)
   rescue Errno::ENOENT
-    puts "Unable to load config file, exiting..."
-    exit
-  end
-  base_config.to_json
-
-  Dir.foreach(CONFIG_PATH) do |item|
-    next if item == '.' or item == '..' or item == 'default.yml'
-      if File.extname(item) == '.yml' then
-        config = YAML.load_file(item)
-      end
+    abort("Failed to load the default configuration file.")
   end
 end
+
+# Loop all other yaml files in the config directory and deep merge them into one hash
+config_files = {}
+Dir.foreach(CONFIG_PATH) do |item|
+    next if item == '.' or item == '..' or item == 'default.yml'
+    if File.extname(item) == '.yml' then
+      local = YAML.load_file(File.join(CONFIG_PATH, item))
+      config_files = config_files.deep_merge(local)
+    end
+end
+
+# Deep merge default config with other config files (assuming they exist)
+user_config = (config_files.length == 0 && base_config) || base_config.deep_merge(config_files)
 
 Vagrant.configure("2") do |config|
   # Box
@@ -55,6 +62,6 @@ Vagrant.configure("2") do |config|
       chef.add_role("amp")
       chef.add_role("extras")
 
-      chef.json.merge(base_config)
+      chef.json.merge(user_config)
   end
 end
