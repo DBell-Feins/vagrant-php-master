@@ -24,6 +24,7 @@ Vagrant.configure("2") do |config|
   # Forwarded ports
   config.vm.network :forwarded_port, host: 3000, guest: 80 # apache
   config.vm.network :forwarded_port, host: 3333, guest: 3306 # mysql
+  config.vm.network :forwarded_port, host: 9010, guest: 9000 # xdebug
 
   # Provisioning with Chef
   config.vm.provision :chef_solo do |chef|
