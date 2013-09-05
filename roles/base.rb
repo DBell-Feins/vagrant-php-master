@@ -5,5 +5,4 @@ run_list 'recipe[apt]',
           'recipe[build-essential]',
           'recipe[openssl]',
           'recipe[git]',
-          'recipe[nodejs]',
-          'recipe[nodejs::npm]'
+          'recipe[nodejs]'
